@@ -20,8 +20,8 @@ const storage = multer.diskStorage({
 exports.createMenuItem = async (req, res, next) => {
   try {
     const { name, price } = req.body;
-    const { filename } = req.file; 
-    const menuItem = new Menu({ name, price,image: filename });
+    const image = req.file.filename;
+    const menuItem = new Menu({ name, price,image: image });
     const newMenuItem = await menuItem.save();
     res.status(201).json(newMenuItem);
   } catch (error) {
