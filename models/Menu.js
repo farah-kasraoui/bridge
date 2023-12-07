@@ -9,10 +9,12 @@ const menuSchema = new mongoose.Schema({
     type: Number,
     // required: true,
   },
-  imageUrl: { // Ajout d'un champ pour l'URL de l'image
-    type: String,
-    default: '' // Vous pouvez définir une URL par défaut si nécessaire
-  }
+  image: [
+    {
+     
+      url: String,
+    },
+  ],
 });
 
 const Menu = mongoose.model('Menu', menuSchema);

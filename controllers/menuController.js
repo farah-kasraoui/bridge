@@ -4,22 +4,24 @@ const multer = require('multer');
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-      const uploadPath = path.join(__dirname, 'uploads/');
-      console.log('Chemin du dossier d\'upload :', uploadPath);
+      const uploadPath = path.join(__dirname, "../public/uploads/");
+      
       cb(null, uploadPath);
+     
     },
     filename: function (req, file, cb) {
-      const imagePath = path.join(__dirname, 'uploads/', Date.now() + '-' + file.originalname);
+      const imagePath = path.join(__dirname, '../public/uploads/', Date.now() + '-' + file.originalname);
       console.log('Chemin de l\'image uploadée :', imagePath);
       cb(null, Date.now() + '-' + file.originalname);
     }
   });
-  
+  const upload = multer({ storage: storage });
 
 exports.createMenuItem = async (req, res, next) => {
   try {
     const { name, price } = req.body;
-    const menuItem = new Menu({ name, price });
+    const { filename } = req.file; 
+    const menuItem = new Menu({ name, price,image: filename });
     const newMenuItem = await menuItem.save();
     res.status(201).json(newMenuItem);
   } catch (error) {
